@@ -30,6 +30,7 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
             services.AddMassTransit(x =>
             {
                 x.SetSnakeCaseEndpointNameFormatter();
+                x.AddConsumer<SendNotificationConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(rabbitConfig.Host, "/", h => {
@@ -47,7 +48,7 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
                     cfg.ReceiveEndpoint(recEndp.QueueName, e =>
                     {
                         e.ConfigureConsumeTopology = false;
-                        e.Consumer<SendNotificationConsumer>(context);
+                        e.ConfigureConsumer<SendNotificationConsumer>(context);
                         e.Bind<SendNotification>(p =>
                         {
                             p.ExchangeType = "topic";

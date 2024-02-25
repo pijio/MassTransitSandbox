@@ -35,7 +35,7 @@ public class NotificationProducer : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             await PublishNotification(stoppingToken);
-            await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);
         }
 
     }

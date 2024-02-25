@@ -7,18 +7,24 @@ namespace MassTransitSandbox.Consumer;
 
 public class SendNotificationConsumer : IConsumer<Batch<SendNotification>>
 {
+    private readonly ILogger<SendNotificationConsumer> _logger;
+
+    public SendNotificationConsumer(ILogger<SendNotificationConsumer> logger)
+    {
+        _logger = logger;
+    }
+    
     public async Task Consume(ConsumeContext<Batch<SendNotification>> context)
     {
-        var logger = context.GetServiceOrCreateInstance<ILogger>();
-        logger.LogInformation($"Получен пакет из {context.Message.Length} сообщений");
+        _logger.LogInformation($"Получен пакет из {context.Message.Length} сообщений");
         foreach (var msg in context.Message)
         {
-            logger.LogInformation(
+            _logger.LogInformation(
                 $"Сообщение - Id:{msg.Message.Id}, Текст:{msg.Message.Message}, Дата публикации {msg.Message.Date:g}\n");
             if (RandomNumberGenerator.GetInt32(0, 15) == 15)
                 throw new OperationCanceledException("Что-то поломалось...");
             await Task.Delay(TimeSpan.FromSeconds(2));
-            logger.LogInformation("Отправка прошла успешно!");
+            _logger.LogInformation("Отправка прошла успешно!");
         }
     }
 }
