@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransitSandbox.Producer", "MassTransitSandbox.Producer\MassTransitSandbox.Producer.csproj", "{5A38DC32-4502-4D0B-8916-4CC14573A026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransitSandbox.Consumer", "MassTransitSandbox.Consumer\MassTransitSandbox.Consumer.csproj", "{89BC216A-5F55-49ED-91ED-26C0905E8DBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransitSandbox.Contracts", "MassTransitSandbox.Contracts\MassTransitSandbox.Contracts.csproj", "{9F643734-F666-4028-8F46-EC93A5252AF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A38DC32-4502-4D0B-8916-4CC14573A026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A38DC32-4502-4D0B-8916-4CC14573A026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A38DC32-4502-4D0B-8916-4CC14573A026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A38DC32-4502-4D0B-8916-4CC14573A026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89BC216A-5F55-49ED-91ED-26C0905E8DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89BC216A-5F55-49ED-91ED-26C0905E8DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89BC216A-5F55-49ED-91ED-26C0905E8DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89BC216A-5F55-49ED-91ED-26C0905E8DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F643734-F666-4028-8F46-EC93A5252AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F643734-F666-4028-8F46-EC93A5252AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F643734-F666-4028-8F46-EC93A5252AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F643734-F666-4028-8F46-EC93A5252AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
