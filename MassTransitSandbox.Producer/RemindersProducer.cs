@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System.Security.Cryptography;
+using MassTransit;
 using MassTransitSandbox.Contracts;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,23 +7,25 @@ using PasswordGenerator;
 
 namespace MassTransitSandbox.Producer;
 
-public class NotificationProducer : BackgroundService
+public class RemindersProducer : BackgroundService
 {
     private readonly ILogger<NotificationProducer> _logger;
-    private readonly IBus _bus;
+    private readonly IMessageScheduler _scheduler;
     private readonly Password _textGenerator = new (true, true, true, true, 32);
 
-    public NotificationProducer(ILogger<NotificationProducer> logger, IBus bus)
+    public RemindersProducer(ILogger<NotificationProducer> logger, IMessageScheduler scheduler)
     {
         _logger = logger;
-        _bus = bus;
+        _scheduler = scheduler;
     }
 
     private async Task PublishNotification(CancellationToken token)
     {
         var notification = CreateNotification();
-        await _bus.Publish(notification, token);
-        _logger.LogInformation($"[NotificationProducer]: Опубликовано сообщение: {notification.Id}");
+        var delay = RandomNumberGenerator.GetInt32(1, 5);
+        var sendTime = DateTime.Now.AddMinutes(delay);
+        await _scheduler.SchedulePublish(sendTime, notification, token);
+        _logger.LogInformation($"[RemindersProducer]: Опубликовано сообщение: {notification.Id}. Будет отправлено в {sendTime:g}");
     }
     
     private SendNotification CreateNotification()
@@ -35,7 +38,7 @@ public class NotificationProducer : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             await PublishNotification(stoppingToken);
-            await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
         }
     }
 }

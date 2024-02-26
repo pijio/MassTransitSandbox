@@ -35,6 +35,7 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
             services.AddMassTransit(x =>
             {
                 x.SetSnakeCaseEndpointNameFormatter();
+                x.AddDelayedMessageScheduler();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(rabbitConfig.Host, "/", h => {
@@ -42,19 +43,17 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
                         h.Password(rabbitConfig.Password);
                     });
                     cfg.UseDelayedMessageScheduler();
-                    cfg.Send<SendNotification>(cf =>
+                    cfg.Message<SendNotification>(m => m.SetEntityName(recEndp.ExchangeName));
+                    cfg.Send<SendNotification>(s =>
                     {
-                        cf.UseRoutingKeyFormatter(f => f.Message.Priority);
+                        s.UseRoutingKeyFormatter(m => m.Message.Priority);
                     });
-                    cfg.Publish<SendNotification>(cf =>
+                    cfg.Publish<SendNotification>(t =>
                     {
-                        cf.ExchangeType = "topic";
-                    });
-                    cfg.Message<SendNotification>(mt =>
-                    {
-                        mt.SetEntityName(recEndp.ExchangeName);
+                        t.ExchangeType = "topic";
                     });
                 });
             });
-            services.AddHostedService<NotificationProducer>();
+            //services.AddHostedService<NotificationProducer>();
+            services.AddHostedService<RemindersProducer>();
         });

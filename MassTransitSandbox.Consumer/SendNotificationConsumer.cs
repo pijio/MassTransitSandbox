@@ -20,7 +20,7 @@ public class SendNotificationConsumer : IConsumer<Batch<SendNotification>>
         foreach (var msg in context.Message)
         {
             _logger.LogInformation(
-                $"Сообщение - Id:{msg.Message.Id}, Текст:{msg.Message.Message}, Дата публикации {msg.Message.Date:g}\n");
+                $"Сообщение - Id:{msg.Message.Id}, Текст:{msg.Message.Message}");
             if (RandomNumberGenerator.GetInt32(0, 15) == 15)
                 throw new OperationCanceledException("Что-то поломалось...");
             await Task.Delay(TimeSpan.FromSeconds(2));

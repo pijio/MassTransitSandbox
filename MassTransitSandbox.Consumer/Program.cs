@@ -37,11 +37,6 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
                         h.Username(rabbitConfig.Username);
                         h.Password(rabbitConfig.Password);
                     });
-                    
-                    cfg.Send<SendNotification>(s =>
-                    {
-                        s.UseRoutingKeyFormatter(m => m.Message.Priority);
-                    });
 
                     cfg.Message<SendNotification>(m => m.SetEntityName(recEndp.ExchangeName));
                     
@@ -54,7 +49,6 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
                             p.ExchangeType = "topic";
                             p.RoutingKey = NotificationsPriority.High;
                         });
-                        e.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
                     });
                 });
             });
